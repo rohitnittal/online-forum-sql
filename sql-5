@@ -1,0 +1,51 @@
+-- Create the database
+CREATE DATABASE online_forum;
+
+-- Use the database
+USE online_forum;
+
+-- Create the tables
+CREATE TABLE users (
+  user_id INT PRIMARY KEY,
+  username VARCHAR(255),
+  email VARCHAR(255),
+  password VARCHAR(255)
+);
+
+CREATE TABLE topics (
+  topic_id INT PRIMARY KEY,
+  title VARCHAR(255),
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE posts (
+  post_id INT PRIMARY KEY,
+  topic_id INT,
+  user_id INT,
+  content TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (topic_id) REFERENCES topics(topic_id),
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+-- Insert some sample data
+INSERT INTO users (user_id, username, email, password)
+VALUES
+  (1, 'admin', 'admin@example.com', 'password123'),
+  (2, 'user1', 'user1@example.com', 'password123'),
+  (3, 'user2', 'user2@example.com', 'password123');
+
+INSERT INTO topics (topic_id, title, description)
+VALUES
+  (1, 'Welcome to the forum!', 'This is the welcome topic'),
+  (2, 'General Discussion', 'Discuss anything here'),
+  (3, 'Technical Support', 'Get help with technical issues');
+
+INSERT INTO posts (post_id, topic_id, user_id, content)
+VALUES
+  (1, 1, 1, 'Hello everyone! Welcome to the forum.'),
+  (2, 2, 2, 'Hi, I\'m new here. Nice to meet you all.'),
+  (3, 3, 3, 'I need help with my computer. Can someone assist me?');
